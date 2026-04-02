@@ -42,7 +42,7 @@ Material:
     m_Floats:
     - _EnvironmentReflections: 1
     - _Glossiness: 0.446
-    - _Smoothness: 0.315
+    - _Smoothness: 0.323
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

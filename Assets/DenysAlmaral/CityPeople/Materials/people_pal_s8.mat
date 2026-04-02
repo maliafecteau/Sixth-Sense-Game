@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: people_pal_s8
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 214522dcab1b87643901ca3e37cb7f5a, type: 2}
+  m_Parent: {fileID: 2100000, guid: fad8ac2b16585714b9d210f49e9cd5c9, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _METALLICSPECGLOSSMAP
