@@ -3,19 +3,25 @@ using UnityEngine.InputSystem;
 
 public class cameraScript : MonoBehaviour
 {
-    [SerializeField] Transform playerTransform;
-    [SerializeField] Vector3 cameraOffset;
+    //[SerializeField] Transform playerTransform;
+    //Vector3 cameraOffset = new Vector3(-3,3,2);
+    [SerializeField] Vector3 cameraTransform;
+    [SerializeField] Quaternion cameraRotation;
     
     void Start()
     {
-        cameraOffset = new Vector3(-5, 3, 3);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = playerTransform.position + cameraOffset;
-        transform.LookAt(playerTransform.position);
+        cameraTransform = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        cameraRotation = transform.rotation;
+        transform.position = cameraTransform;
+        transform.rotation = cameraRotation;
+        //transform.position = playerTransform.position + cameraOffset;
+        //transform.rotation = Quaternion.Euler(25, 121, -0.8f);
     }
 }
 
