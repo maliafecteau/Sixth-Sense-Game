@@ -84,11 +84,11 @@ public class playerMovement : MonoBehaviour
         {
             if (sprintAction.IsPressed() && isGrounded)
             {
-                speed = 10f;
+                speed = 7f;
             }
             else
             {
-                speed = 2f;
+                speed = 3f;
             }
             Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
             float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
