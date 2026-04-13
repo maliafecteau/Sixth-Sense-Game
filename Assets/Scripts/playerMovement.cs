@@ -17,11 +17,12 @@ public class playerMovement : MonoBehaviour
     float currentVelocity;
     private float verticalVelocity;
     public bool isGrounded;
+    public bool IsJumping { get; private set; }
     private float gravity = -9.8f;
 
     [SerializeField] Transform cameraTransform;
-    [SerializeField] float speed = 3;
-    [SerializeField] float jumpHeight = 0.1f;
+    [SerializeField] public float speed = 2;
+    [SerializeField] float jumpHeight = 0.2f;
     [SerializeField] float rotationSmoothTime;
     
 
@@ -73,9 +74,13 @@ public class playerMovement : MonoBehaviour
         }
         if (jumpAction.IsPressed() && isGrounded)
         {
+            IsJumping = true;
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        } else
+        {
+            IsJumping = false;
         }
-        verticalVelocity += gravity * Time.deltaTime;
+            verticalVelocity += gravity * Time.deltaTime;
 
         Vector3 moveDir = Vector3.zero;
         moveInput = moveAction.ReadValue<Vector2>();
@@ -84,11 +89,11 @@ public class playerMovement : MonoBehaviour
         {
             if (sprintAction.IsPressed() && isGrounded)
             {
-                speed = 7f;
+                speed = 5f;
             }
             else
             {
-                speed = 3f;
+                speed = 2f;
             }
             Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
             float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;

@@ -22,7 +22,7 @@ public class animationScriptPlayer : MonoBehaviour
             playerAnimator.SetBool("isWalking", false);
         }
 
-        if (playerMove.moveInput.magnitude > 3.0f)
+        if (playerMove.speed > 2.0f)
         {
             playerAnimator.SetBool("isRunning", true);
         }
@@ -30,7 +30,7 @@ public class animationScriptPlayer : MonoBehaviour
         {
             playerAnimator.SetBool("isRunning", false);
         }
-        if (playerMove.isGrounded == false)
+        if (playerMove.IsJumping)
         {
             playerAnimator.SetBool("isJump", true);
         } 
