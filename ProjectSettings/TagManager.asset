@@ -6,17 +6,17 @@ TagManager:
   tags:
   - Bed
   - Exit
-  - character
   - bedroom
-  - Enter
+  - Dad
+  - Mum
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
