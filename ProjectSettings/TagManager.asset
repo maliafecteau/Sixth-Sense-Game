@@ -10,6 +10,7 @@ TagManager:
   - Dad
   - Mum
   - Ghost
+  - interactable
   layers:
   - Default
   - TransparentFX

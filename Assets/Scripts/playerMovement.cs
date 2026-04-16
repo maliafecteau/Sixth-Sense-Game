@@ -6,6 +6,7 @@ public class playerMovement : MonoBehaviour
 {
 
     public CharacterController playerController;
+    public GhostScript ghostie;
     [SerializeField] InputActionAsset inputActions;
     InputActionMap actionMap;
     InputAction moveAction;
@@ -17,6 +18,8 @@ public class playerMovement : MonoBehaviour
     float currentVelocity;
     private float verticalVelocity;
     public bool isGrounded;
+    public bool holdingItem = false;
+    public bool correctItem;
     public bool IsJumping { get; private set; }
     private float gravity = -9.8f;
 
@@ -54,13 +57,23 @@ public class playerMovement : MonoBehaviour
         playerController = GetComponent<CharacterController>();
     }
 
-    void OnTriggerEnter(Collider  collision)
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Exit"))
         {
 
             exitScript = collision.gameObject.GetComponent<LevelExit>();
             levelEvent.InvokeLevelExit(exitScript);
+        }
+        else if (collision.gameObject.CompareTag("interactable"))
+        {
+            Debug.Log(gameObject.name);
+            holdingItem = true;
+            correctItem = collision.gameObject.GetComponent<itemScript>().isCorrectItem;
+        }
+        else if (collision.gameObject.CompareTag("Ghost"))
+        {
+            ghostie.Interact();
         }
     }
 
