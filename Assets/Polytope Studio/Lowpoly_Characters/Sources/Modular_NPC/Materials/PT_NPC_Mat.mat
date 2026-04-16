@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _METALICON_ON
-  - _SMOOTHNESSON_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -99,7 +98,7 @@ Material:
     - _ReceiveShadows: 1
     - _SCLERASMOOTHNESS: 0.463
     - _SKINSMOOTHNESS: 0.154
-    - _SmoothnessOn: 1
+    - _SmoothnessOn: 0
     - _SpecularHighlights: 1
     - __dirty: 0
     m_Colors:
@@ -115,14 +114,14 @@ Material:
     - _CLOTH4COLOR: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0}
     - _CLOTH4COLOR1: {r: 0.2011392, g: 0.3773585, b: 0.3739074, a: 0}
     - _COATOFARMSCOLOR: {r: 1, g: 0, b: 0, a: 0}
-    - _EYESCOLOR: {r: 0.003935064, g: 0.009433985, b: 0.0017354974, a: 1}
+    - _EYESCOLOR: {r: 0.03071345, g: 0.03189604, b: 0.04091521, a: 1}
     - _EYESCOLOR1: {r: 0.0734529, g: 0.1320755, b: 0.05046281, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FEATHERS1COLOR: {r: 0.7735849, g: 0.492613, b: 0.492613, a: 0}
     - _FEATHERS1COLOR1: {r: 0.7735849, g: 0.492613, b: 0.492613, a: 0}
     - _FEATHERS2COLOR: {r: 1, g: 0, b: 0, a: 0}
     - _FEATHERS2COLOR1: {r: 0.6792453, g: 0, b: 0, a: 0}
-    - _HAIRCOLOR: {r: 0.24528301, g: 0.06965111, b: 0.005784976, a: 0}
+    - _HAIRCOLOR: {r: 0.23804496, g: 0.19268733, b: 0.18074486, a: 0}
     - _HAIRCOLOR1: {r: 1, g: 0, b: 0, a: 0}
     - _LEATHER1COLOR: {r: 0.3018868, g: 0.032959573, b: 0, a: 1}
     - _LEATHER1COLOR1: {r: 0.4811321, g: 0.2041155, b: 0.08851016, a: 1}
@@ -132,7 +131,7 @@ Material:
     - _LEATHER3COLOR1: {r: 0.1698113, g: 0.04637412, b: 0.02963688, a: 1}
     - _LEATHER4COLOR: {r: 0.5283019, g: 0.23091508, b: 0, a: 1}
     - _LEATHER4COLOR1: {r: 0.1698113, g: 0.04637412, b: 0.02963688, a: 1}
-    - _LIPSCOLOR: {r: 0.6981132, g: 0.23067373, b: 0.19428623, a: 0}
+    - _LIPSCOLOR: {r: 0.8564573, g: 0.6687443, b: 0.5848932, a: 0}
     - _LIPSCOLOR1: {r: 0.8301887, g: 0.3185886, b: 0.2780349, a: 0}
     - _METAL1COLOR: {r: 0.8792791, g: 0.9922886, b: 1.007606, a: 0}
     - _METAL1COLOR1: {r: 0.8792791, g: 0.9922886, b: 1.007606, a: 0}
@@ -142,11 +141,11 @@ Material:
     - _METAL3COLOR1: {r: 0.4383232, g: 0.4383232, b: 0.4716981, a: 0}
     - _METAL4COLOR: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0}
     - _METAL4COLOR1: {r: 0.4383232, g: 0.4383232, b: 0.4716981, a: 0}
-    - _OTHERCOLOR: {r: 0.6792453, g: 0.2755839, b: 0.05446779, a: 0}
+    - _OTHERCOLOR: {r: 0.61257786, g: 0.054901972, b: 0.6784314, a: 0}
     - _OTHERCOLOR1: {r: 0.5188679, g: 0.4637216, b: 0.3206212, a: 0}
     - _SCLERACOLOR: {r: 0.9056604, g: 0.8159487, b: 0.8159487, a: 0}
     - _SCLERACOLOR1: {r: 0.9056604, g: 0.8159487, b: 0.8159487, a: 0}
-    - _SKINCOLOR: {r: 0.8679245, g: 0.6131878, b: 0.5404058, a: 1}
+    - _SKINCOLOR: {r: 1.1826348, g: 1.0338846, b: 1.0135819, a: 1}
     - _SKINCOLOR1: {r: 2.02193, g: 1.0081, b: 0.6199315, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -5,37 +5,45 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
 
-    [SerializeField]
-    private GameState startingState;
+    public int trust = 0;
+    public int mood = 50; // 0 = angry, 100 = calm
 
-    public GameState gameState { get; private set; }
-
-
-    private void Awake()
+    public void AddTrust(int amount)
     {
-        if (Instance != null && Instance != this)
+        trust += amount;
+        trust = Mathf.Clamp(trust, 0, 100);
+    }
+
+    public void ChangeMood(int amount)
+    {
+        mood += amount;
+        mood = Mathf.Clamp(mood, 0, 100);
+
+        if (mood <= 0)
         {
-            Destroy(gameObject);
-            return;
-        } else
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
+            GameOver();
         }
-
-        gameState = Instantiate(startingState);
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AskAboutSecret()
     {
-        
+        if (trust >= 70)
+        {
+            Debug.Log("Good Ending");
+        }
+        else if (trust >= 40)
+        {
+            Debug.Log("Neutral Ending");
+        }
+        else
+        {
+            Debug.Log("Bad Ending");
+        }
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Ghost became hostile - Game Over");
     }
 }
