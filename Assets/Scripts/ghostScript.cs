@@ -16,11 +16,6 @@ public class GhostScript : MonoBehaviour
     Button askSecretBtn;
     Button exitBtn;
 
-    void Awake()
-    {
-        // nothing here for now
-    }
-
     void OnEnable()
     {
         if (dialogueUI == null)
