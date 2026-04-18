@@ -1,66 +1,158 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.UIElements;
 
 public class GhostScript : MonoBehaviour
 {
     [SerializeField] InputActionAsset inputActions;
+    [SerializeField] UIDocument dialogueUI;
     playerMovement player;
-    InputActionMap actionMap;
-    InputAction interactAction;
-    InputAction askSecretAction;
     public GameManager gameManager;
     public int phase = 0;
 
-    private void Awake()
+    VisualElement root;
+    Button giveItemBtn;
+    Button askSecretBtn;
+    Button exitBtn;
+
+    void Awake()
     {
-        actionMap = inputActions.FindActionMap("Player");
-        interactAction = actionMap.FindAction("Interact");
-        askSecretAction = actionMap.FindAction("AskSecret");
+        // nothing here for now
     }
+
+    void OnEnable()
+    {
+        if (dialogueUI == null)
+        {
+            Debug.LogWarning("GhostScript: dialogueUI is not assigned.");
+            return;
+        }
+
+        root = dialogueUI.rootVisualElement;
+        if (root == null)
+        {
+            Debug.LogWarning("GhostScript: rootVisualElement is null.");
+            return;
+        }
+
+        // cache buttons and validate
+        giveItemBtn = root.Q<Button>("GiveItemBtn");
+        askSecretBtn = root.Q<Button>("SecretBtn");
+        exitBtn = root.Q<Button>("ExitBtn");
+
+        Debug.Log($"GhostScript: GiveItemBtn={(giveItemBtn != null)}, SecretBtn={(askSecretBtn != null)}, ExitBtn={(exitBtn != null)}");
+
+        if (giveItemBtn != null)
+        {
+            giveItemBtn.clicked -= OnGiveItemClicked;
+            giveItemBtn.clicked += OnGiveItemClicked;
+        }
+
+        if (askSecretBtn != null)
+        {
+            askSecretBtn.clicked -= OnAskSecretClicked;
+            askSecretBtn.clicked += OnAskSecretClicked;
+        }
+
+        if (exitBtn != null)
+        {
+            exitBtn.clicked -= OnExitClicked;
+            exitBtn.clicked += OnExitClicked;
+        }
+
+        // initial text
+        var textBox = root.Q<Label>("textBox");
+        if (textBox != null)
+        {
+            textBox.text = "...H-hello?  Can you help me?  I can't- remember much... but I think I was making something...";
+        }
+    }
+
+    void OnDisable()
+    {
+        if (giveItemBtn != null) giveItemBtn.clicked -= OnGiveItemClicked;
+        if (askSecretBtn != null) askSecretBtn.clicked -= OnAskSecretClicked;
+        if (exitBtn != null) exitBtn.clicked -= OnExitClicked;
+    }
+
     public void Interact()
     {
-        Debug.Log("You interact with the ghost.");
-        // Here you would typically show a UI for item selection
-        if (interactAction.WasPressedThisFrame())
+        if (dialogueUI == null)
         {
-           if (player.holdingItem)
+            Debug.LogWarning("GhostScript.Interact: dialogueUI is not assigned.");
+            return;
+        }
+
+        root = dialogueUI.rootVisualElement;
+        if (root == null) return;
+
+        root.style.display = DisplayStyle.Flex;
+        var overlay = root.Q<VisualElement>("overlay");
+        if (overlay != null) overlay.style.display = DisplayStyle.Flex;
+
+        Debug.Log("You interact with the ghost: UI shown");
+    }
+
+    void OnGiveItemClicked()
+    {
+        Debug.Log("GiveItemBtn clicked");
+        if (player == null)
+        {
+            Debug.LogWarning("GiveItemClicked: player reference is null.");
+            return;
+        }
+
+        if (player.holdingItem)
+        {
+            if (player.correctItem)
             {
-                if (player.correctItem)
-                {
-                    GiveCorrectItem();
-                } else
-                {
-                    GiveWrongItem();
-                }
-            } else
+                GiveCorrectItem();
+            }
+            else
             {
-               Debug.Log("You have no item to give.");
+                GiveWrongItem();
             }
         }
-
-           if (askSecretAction.WasPressedThisFrame())
-            {
-                AskSecret();
+        else
+        {
+            Debug.Log("You have no item to give.");
         }
-
     }
+
+    void OnAskSecretClicked()
+    {
+        Debug.Log("AskSecretBtn clicked");
+        AskSecret();
+    }
+
+    void OnExitClicked()
+    {
+        Debug.Log("ExitBtn clicked");
+        if (root == null) root = dialogueUI?.rootVisualElement;
+        var overlay = root?.Q<VisualElement>("overlay");
+        if (overlay != null) overlay.style.display = DisplayStyle.None;
+        root.style.display = DisplayStyle.None;
+        Debug.Log("You stop interacting with the ghost.");
+    }
+
     public void GiveCorrectItem()
     {
-        gameManager.AddTrust(20);
-        gameManager.ChangeMood(10);
+        gameManager?.AddTrust(20);
+        gameManager?.ChangeMood(10);
         Debug.Log("Ghost is pleased");
         phase += 1;
     }
 
     public void GiveWrongItem()
     {
-        gameManager.ChangeMood(-20);
+        gameManager?.ChangeMood(-20);
         Debug.Log("Ghost is upset");
     }
 
     public void AskSecret()
     {
-        gameManager.AskAboutSecret();
+        gameManager?.AskAboutSecret();
+        Debug.Log("You ask the ghost about the secret.");
     }
 }

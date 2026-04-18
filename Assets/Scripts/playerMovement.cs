@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.UIElements;
 
 public class playerMovement : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class playerMovement : MonoBehaviour
     InputAction moveAction;
     InputAction jumpAction;
     InputAction sprintAction;
+    InputAction interactAction;
     LevelExit exitScript;
     [SerializeField] LevelEvents levelEvent;
 
@@ -41,6 +43,7 @@ public class playerMovement : MonoBehaviour
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");
         sprintAction = actionMap.FindAction("Sprint");
+        interactAction = actionMap.FindAction("Interact");
     }
 
     private void OnEnable()
@@ -63,17 +66,39 @@ public class playerMovement : MonoBehaviour
         {
 
             exitScript = collision.gameObject.GetComponent<LevelExit>();
-            levelEvent.InvokeLevelExit(exitScript);
+            if (exitScript != null && levelEvent != null)
+            {
+                levelEvent.InvokeLevelExit(exitScript);
+            }
         }
-        else if (collision.gameObject.CompareTag("interactable"))
+        
+        if (collision.gameObject.CompareTag("interactable"))
         {
-            Debug.Log(gameObject.name);
-            holdingItem = true;
-            correctItem = collision.gameObject.GetComponent<itemScript>().isCorrectItem;
+            var item = collision.gameObject.GetComponent<itemScript>();
+            if (item != null && tooltipScript.Instance != null)
+            {
+                tooltipScript.Instance.Show(item.itemName);
+            }
+            if (interactAction.WasPressedThisFrame())
+            {
+                Debug.Log(gameObject.name);
+                holdingItem = true;
+                correctItem = collision.gameObject.GetComponent<itemScript>().isCorrectItem;
+            }
         }
-        else if (collision.gameObject.CompareTag("Ghost"))
+        if (collision.gameObject.CompareTag("Ghost"))
         {
+            ghostie = collision.gameObject.GetComponent<GhostScript>();
             ghostie.Interact();
+        }
+    }
+    void OnTriggerExit(Collider collision)
+    {
+        // Hide tooltip when leaving an interactable
+        if (collision.gameObject.CompareTag("interactable"))
+        {
+            if (tooltipScript.Instance != null)
+                tooltipScript.Instance.Hide();
         }
     }
 
@@ -117,8 +142,5 @@ public class playerMovement : MonoBehaviour
 
         Vector3 velocity = moveDir * speed + Vector3.up * verticalVelocity * gravity * -1;
         playerController.Move(velocity * Time.deltaTime);
-
     }
-
-
 }
