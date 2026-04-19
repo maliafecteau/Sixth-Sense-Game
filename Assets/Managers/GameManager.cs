@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
         if (mood <= 0)
         {
-            GameOver();
+            GameOver("angry");
             Debug.LogWarning("Ghost is angry - Game Over");
         }
     }
@@ -72,20 +72,38 @@ public class GameManager : MonoBehaviour
         if (trust >= 70)
         {
             Debug.Log("Good Ending");
+            GameOver("good");
         }
         else if (trust >= 40)
         {
             Debug.Log("Neutral Ending");
+            GameOver("neutral");
         }
         else
         {
             Debug.Log("Bad Ending");
+            GameOver("bad");
         }
     }
 
-    void GameOver()
+    void GameOver(string result)
     {
-        Debug.LogWarning("Ghost became hostile - Game Over");
+        if (result == "good")
+        {
+
+        }
+        else if (result == "neutral")
+        {
+
+        }
+        else if (result == "bad")
+        {
+
+        }
+        else if (result == "angry")
+        {
+            Debug.LogWarning("Ghost became hostile - Game Over");
+        }
     }
 
     private void Update()
