@@ -135,8 +135,8 @@ public class GhostScript : MonoBehaviour
 
     public void GiveCorrectItem()
     {
-        gameManager?.AddTrust(20);
-        gameManager?.ChangeMood(10);
+        gameManager?.AddTrust(50);
+        gameManager?.ChangeMood(25);
         Debug.Log("Ghost is pleased");
         phase += 1;
     }

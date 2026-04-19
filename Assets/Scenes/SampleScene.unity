@@ -7631,9 +7631,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   trust: 0
-  mood: 50
-  moodVisualiser: Neutral
+  mood: 0
   UIoverlay: {fileID: 1549062034}
+  happyTexture: {fileID: 2800000, guid: d44e5cfcdddc94e47b6b60d0d08d888c, type: 3}
+  happyishTexture: {fileID: 2800000, guid: 1cb76f5e034e62e49aabf84b3ee30fbd, type: 3}
+  neutralTexture: {fileID: 2800000, guid: d9325c5cae601c940a6886e747c26087, type: 3}
+  angryishTexture: {fileID: 2800000, guid: 04216a914c031b441a102983e11f7edb, type: 3}
+  angryTexture: {fileID: 2800000, guid: dae8c0a5dd5228b47874d958f7d7e082, type: 3}
 --- !u!4 &1371742135
 Transform:
   m_ObjectHideFlags: 0
