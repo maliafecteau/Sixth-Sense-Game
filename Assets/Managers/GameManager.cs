@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class GameManager : MonoBehaviour
 
         if (mood <= 0)
         {
-            GameOver("angry");
+            GameOver("badEnding");
             Debug.LogWarning("Ghost is angry - Game Over");
         }
     }
@@ -72,42 +73,42 @@ public class GameManager : MonoBehaviour
         if (trust >= 70)
         {
             Debug.Log("Good Ending");
-            GameOver("good");
+            GameOver("goodEnding");
         }
         else if (trust >= 40)
         {
             Debug.Log("Neutral Ending");
-            GameOver("neutral");
+            GameOver("neutralEnding");
         } else if (trust > 0)
         {
             Debug.Log("Neutral Ending");
-            GameOver("bad");
+            GameOver("neutralEnding");
         }
         else
         {
             Debug.Log("Bad Ending");
-            GameOver("bad");
+            GameOver("badEnding");
         }
     }
 
     void GameOver(string result)
     {
-        if (result == "good")
+        if (result == "goodEnding")
         {
-
+            SceneManager.LoadScene("goodEnding");
+            Debug.Log("Good Ending");
         }
-        else if (result == "neutral")
+        else if (result == "neutralEnding")
         {
-
+            SceneManager.LoadScene("neutralEnding");    
+            Debug.Log("Neutral Ending");
         }
-        else if (result == "bad")
+        else if (result == "badEnding")
         {
-
+            SceneManager.LoadScene("badEnding");
+            Debug.Log("Bad Ending");
         }
-        else if (result == "angry")
-        {
-            Debug.LogWarning("Ghost became hostile - Game Over");
-        }
+        SceneManager.LoadScene(result);
     }
 
     private void Update()
