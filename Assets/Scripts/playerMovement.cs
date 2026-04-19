@@ -21,9 +21,6 @@ public class playerMovement : MonoBehaviour
     float currentVelocity;
     private float verticalVelocity;
     public bool isGrounded;
-    public bool holdingItem = false;
-    public bool correctItem1;
-    public bool correctItem2;
     public bool IsJumping { get; private set; }
     private float gravity = -9.8f;
 
@@ -117,37 +114,6 @@ public class playerMovement : MonoBehaviour
                         return;
                     }
                 }
-                /*
-                if (item.PickedUp && !holdingItem)
-                {
-                    Debug.Log("Already tried this item");
-                    return;
-                }
-                if (item.PickedUp && holdingItem)
-                {
-                    Debug.Log("Already holding this item");
-                    holdingItem = false;
-                    item.PickedUp = false;
-                    correctItem1 = false;
-                    correctItem2 = false;
-                    return;
-                }
-                if (!item.PickedUp && !holdingItem)
-                {
-                    Debug.Log("not holding anything");
-                    holdingItem = true;
-                    item.PickedUp = true;
-                    Debug.LogAssertion($"Picked up {item.itemName}");
-                    correctItem1 = item.isCorrectItem1;
-                    correctItem2 = item.isCorrectItem2;
-                    Debug.Log($"Is the item 1 correct? {correctItem1}");
-                    Debug.Log($"Is the item 2 correct? {correctItem2}");
-                    tooltipScript.Instance.Hide();
-                }
-                if (!item.PickedUp && holdingItem)
-
-                collision.gameObject.SetActive(false);
-                */
             }
         }
     }
@@ -216,8 +182,5 @@ public class playerMovement : MonoBehaviour
 
         // Clear player state
         heldItem = null;
-        holdingItem = false;
-        correctItem1 = false;
-        correctItem2 = false;
     }
 }

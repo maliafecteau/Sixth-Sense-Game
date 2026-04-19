@@ -13,6 +13,7 @@ public class GhostScript : MonoBehaviour
     Button giveItemBtn;
     Button askSecretBtn;
     Button exitBtn;
+    Button yesBtn;
 
     void OnEnable()
     {
@@ -34,6 +35,7 @@ public class GhostScript : MonoBehaviour
         giveItemBtn = root.Q<Button>("GiveItemBtn");
         askSecretBtn = root.Q<Button>("SecretBtn");
         exitBtn = root.Q<Button>("ExitBtn");
+        yesBtn = root.Q<Button>("YesBtn");
 
         Debug.Log($"GhostScript: GiveItemBtn={(giveItemBtn != null)}, SecretBtn={(askSecretBtn != null)}, ExitBtn={(exitBtn != null)}");
 
@@ -53,6 +55,11 @@ public class GhostScript : MonoBehaviour
         {
             exitBtn.clicked -= OnExitClicked;
             exitBtn.clicked += OnExitClicked;
+        }
+        if (yesBtn != null)
+        {
+            yesBtn.clicked -= GiveCorrectItem;
+            yesBtn.clicked += GiveCorrectItem;
         }
     }
 
@@ -93,10 +100,18 @@ public class GhostScript : MonoBehaviour
             }
             else if (phase == 2)
             {
+                textBox.Q<Label>("textBox").text = "These pens... they're the same ones I was using!  All the colours match, look!\nBut they're mine... what were they doing in your room?\n\nNever mind, thats not important.  We can finish it together, if you like?";
+                root.Q<Button>("GiveItemBtn").style.display = DisplayStyle.None;
+                root.Q<Button>("YesBtn").style.display = DisplayStyle.Flex; // advance dialogue button to reflect new phase
+            }
+            else if (phase == 3)
+            {
+                    
                 textBox.text = "The card is finished now, finally... and I can remember some more things.  You look... familiar, but much older than I remember.  Thank you for helping me...";
                 Debug.Log(textBox.text);
                 root.Q<Button>("GiveItemBtn").style.display = DisplayStyle.None;
                 root.Q<Button>("ExitBtn").style.display = DisplayStyle.None;
+                root.Q<Button>("YesBtn").style.display = DisplayStyle.None;
             }
         }
     }
@@ -143,10 +158,10 @@ public class GhostScript : MonoBehaviour
         else if (phase == 1)
         {
             if (playerItem.isCorrectItem2)
-            {
-                dialogueUI.rootVisualElement.Q<Label>("textBox").text = "These pens... they're the same ones I was using!  All the colours match, look!\nBut they're mine... what were they doing in your room?\n-never mind, thats not important.  We can finish it together, if you like?";
+            { 
                 GiveCorrectItem();
                 player.RemoveHeldItem();
+                Interact(); // advance dialogue immediately to reflect new phase
             }
             else
             {
@@ -172,10 +187,14 @@ public class GhostScript : MonoBehaviour
 
     public void GiveCorrectItem()
     {
-        gameManager?.AddTrust(50);
+        gameManager?.AddTrust(33);
         gameManager?.ChangeMood(25);
         Debug.Log("Ghost is pleased");
         phase += 1;
+        if (phase == 3)
+        {
+            Interact(); // advance dialogue immediately to reflect new phase
+        }
     }
 
     public void GiveWrongItem()

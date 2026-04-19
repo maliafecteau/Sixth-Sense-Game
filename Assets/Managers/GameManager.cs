@@ -78,6 +78,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Neutral Ending");
             GameOver("neutral");
+        } else if (trust > 0)
+        {
+            Debug.Log("Neutral Ending");
+            GameOver("bad");
         }
         else
         {
