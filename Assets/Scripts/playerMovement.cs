@@ -79,12 +79,7 @@ public class playerMovement : MonoBehaviour
             {
                 tooltipScript.Instance.Show(item.itemName);
             }
-            if (interactAction.WasPressedThisFrame())
-            {
-                Debug.Log(gameObject.name);
-                holdingItem = true;
-                correctItem = collision.gameObject.GetComponent<itemScript>().isCorrectItem;
-            }
+            item.GetComponent<Rigidbody>().sleepThreshold = 0.0f; //adjust the sleep threshold to prevent the item from going to sleep and not being interactable
         }
         if (collision.gameObject.CompareTag("Ghost"))
         {
@@ -92,13 +87,34 @@ public class playerMovement : MonoBehaviour
             ghostie.Interact();
         }
     }
+
+    void OnTriggerStay(Collider collision) //called once per frame while the player is within the collider of an interactable object
+    {
+        if (collision.gameObject.CompareTag("interactable"))
+        {
+            if (interactAction.WasPressedThisFrame())
+            {
+                var item = collision.gameObject.GetComponent<itemScript>();
+                item.isPickedUp = true;
+                holdingItem = true;
+                Debug.LogAssertion($"Picked up {item.itemName}");
+                correctItem = item.isCorrectItem;
+                Debug.Log($"Is the item correct? {correctItem}");
+                tooltipScript.Instance.Hide();
+                collision.gameObject.SetActive(false);
+            }
+        }
+    }
+
     void OnTriggerExit(Collider collision)
     {
         // Hide tooltip when leaving an interactable
         if (collision.gameObject.CompareTag("interactable"))
         {
+            collision.gameObject.GetComponent<Rigidbody>().sleepThreshold = 0.005f; //reset the sleep threshold when leaving the interactable
             if (tooltipScript.Instance != null)
                 tooltipScript.Instance.Hide();
+            Debug.Log($"Player left interactable object {collision.gameObject.name}");
         }
     }
 

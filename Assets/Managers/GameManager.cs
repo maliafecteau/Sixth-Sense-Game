@@ -2,13 +2,23 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
 
     public int trust = 0;
     public int mood = 50; // 0 = angry, 100 = calm
+    public string moodVisualiser = "Neutral";
+    [SerializeField] UIDocument UIoverlay;
 
+    void Awake()
+    {
+        var root = UIoverlay.rootVisualElement;
+        root.Q<ProgressBar>("trustBar").value = trust;
+        root.Q<VisualElement>("moodVisual").style.backgroundColor = Color.Lerp(Color.red, Color.green, mood / 100f);
+        Debug.Log("mood colour is:" + root.Q<VisualElement>("moodVisual").style.backgroundColor);
+    }
     public void AddTrust(int amount)
     {
         trust += amount;
@@ -23,6 +33,7 @@ public class GameManager : MonoBehaviour
         if (mood <= 0)
         {
             GameOver();
+            Debug.LogWarning("Ghost is angry - Game Over");
         }
     }
 

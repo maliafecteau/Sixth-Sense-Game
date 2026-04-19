@@ -7,7 +7,7 @@ public class GhostScript : MonoBehaviour
 {
     [SerializeField] InputActionAsset inputActions;
     [SerializeField] UIDocument dialogueUI;
-    playerMovement player;
+    [SerializeField]playerMovement player;
     public GameManager gameManager;
     public int phase = 0;
 
@@ -30,6 +30,7 @@ public class GhostScript : MonoBehaviour
             Debug.LogWarning("GhostScript: rootVisualElement is null.");
             return;
         }
+        root.style.display = DisplayStyle.None;
 
         // cache buttons and validate
         giveItemBtn = root.Q<Button>("GiveItemBtn");
@@ -60,7 +61,9 @@ public class GhostScript : MonoBehaviour
         var textBox = root.Q<Label>("textBox");
         if (textBox != null)
         {
+            Debug.Log("Setting initial ghost dialogue text.");
             textBox.text = "...H-hello?  Can you help me?  I can't- remember much... but I think I was making something...";
+            Debug.Log(textBox.text);
         }
     }
 
@@ -83,8 +86,6 @@ public class GhostScript : MonoBehaviour
         if (root == null) return;
 
         root.style.display = DisplayStyle.Flex;
-        var overlay = root.Q<VisualElement>("overlay");
-        if (overlay != null) overlay.style.display = DisplayStyle.Flex;
 
         Debug.Log("You interact with the ghost: UI shown");
     }
@@ -96,6 +97,9 @@ public class GhostScript : MonoBehaviour
         {
             Debug.LogWarning("GiveItemClicked: player reference is null.");
             return;
+        } else
+        {
+            Debug.Log($"Player holding item: {player.holdingItem}, correct item: {player.correctItem}");
         }
 
         if (player.holdingItem)
@@ -125,8 +129,6 @@ public class GhostScript : MonoBehaviour
     {
         Debug.Log("ExitBtn clicked");
         if (root == null) root = dialogueUI?.rootVisualElement;
-        var overlay = root?.Q<VisualElement>("overlay");
-        if (overlay != null) overlay.style.display = DisplayStyle.None;
         root.style.display = DisplayStyle.None;
         Debug.Log("You stop interacting with the ghost.");
     }
