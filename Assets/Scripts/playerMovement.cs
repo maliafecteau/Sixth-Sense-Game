@@ -16,12 +16,11 @@ public class playerMovement : MonoBehaviour
     InputAction interactAction;
     LevelExit exitScript;
     [SerializeField] LevelEvents levelEvent;
+    public itemScript heldItem;
 
     float currentVelocity;
     private float verticalVelocity;
     public bool isGrounded;
-    public bool holdingItem = false;
-    public bool correctItem;
     public bool IsJumping { get; private set; }
     private float gravity = -9.8f;
 
@@ -77,6 +76,7 @@ public class playerMovement : MonoBehaviour
             var item = collision.gameObject.GetComponent<itemScript>();
             if (item != null && tooltipScript.Instance != null)
             {
+
                 tooltipScript.Instance.Show(item.itemName);
             }
             item.GetComponent<Rigidbody>().sleepThreshold = 0.0f; //adjust the sleep threshold to prevent the item from going to sleep and not being interactable
@@ -92,16 +92,28 @@ public class playerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("interactable"))
         {
+            
             if (interactAction.WasPressedThisFrame())
             {
                 var item = collision.gameObject.GetComponent<itemScript>();
-                item.isPickedUp = true;
-                holdingItem = true;
-                Debug.LogAssertion($"Picked up {item.itemName}");
-                correctItem = item.isCorrectItem;
-                Debug.Log($"Is the item correct? {correctItem}");
-                tooltipScript.Instance.Hide();
-                collision.gameObject.SetActive(false);
+                if (heldItem == null) //if the player is not holding an item, set the held item to the item they are interacting with
+                {
+                    heldItem = item;
+                    heldItem.PickUp();
+                    tooltipScript.Instance.Hide();
+                }
+                else
+                {
+                    if (item != heldItem) //if the player is holding an item and tries to interact with a different item, do nothing
+                    {
+                        Debug.Log("picked up " + item.itemName);
+                        heldItem.PutBack(); //put back the currently held item
+                        heldItem = item; //set the held item to the new item
+                        item.PickUp();
+                        tooltipScript.Instance.Hide();
+                        return;
+                    }
+                }
             }
         }
     }
@@ -158,5 +170,17 @@ public class playerMovement : MonoBehaviour
 
         Vector3 velocity = moveDir * speed + Vector3.up * verticalVelocity * gravity * -1;
         playerController.Move(velocity * Time.deltaTime);
+    }
+
+    // Call this to remove the currently held item (cleanly) from player and world
+    public void RemoveHeldItem()
+    {
+        if (heldItem == null) return;
+
+        // If your item has its own cleanup, call that; otherwise destroy the GameObject
+        heldItem.RemoveFromWorld();
+
+        // Clear player state
+        heldItem = null;
     }
 }
